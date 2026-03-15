@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import './App.css';
 
-const API_BASE = 'https://arvyax-backend.onrender.com/api/journal';
+const API_BASE = 'https://arvyax-backend-u6f5.onrender.com/';
 const USER_ID = '123';
 
 function App() {

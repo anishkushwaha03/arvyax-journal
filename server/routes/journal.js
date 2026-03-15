@@ -3,10 +3,10 @@ const express = require('express');
 const router = express.Router();
 const Journal = require('../models/Journal');
 
-// POST /api/journal - Store entries in a database [cite: 11, 18]
+// POST /api/journal - Store entries in a database
 router.post('/', async (req, res) => {
   try {
-    const { userId, ambience, text } = req.body; // [cite: 14, 15, 16]
+    const { userId, ambience, text } = req.body;
 
     const newEntry = new Journal({ userId, ambience, text });
     await newEntry.save();
@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// GET /api/journal/:userId - Return all entries [cite: 20, 21]
+// GET /api/journal/:userId - Return all entries
 router.get('/:userId', async (req, res) => {
   try {
     const entries = await Journal.find({ userId: req.params.userId }).sort({ createdAt: -1 });
@@ -27,17 +27,17 @@ router.get('/:userId', async (req, res) => {
   }
 });
 
-// GET /api/journal/insights/:userId - Return user insights [cite: 38, 39]
+// GET /api/journal/insights/:userId - Return user insights
 router.get('/insights/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
 
-    // We use MongoDB aggregation to calculate the insights efficiently
+    // MongoDB aggregation to calculate the insights efficiently
     const insights = await Journal.aggregate([
       { $match: { userId: userId } },
       {
         $facet: {
-          totalEntries: [{ $count: "count" }], // [cite: 41]
+          totalEntries: [{ $count: "count" }],
           ambienceStats: [
             { $group: { _id: "$ambience", count: { $sum: 1 } } },
             { $sort: { count: -1 } },
@@ -61,7 +61,7 @@ router.get('/insights/:userId', async (req, res) => {
       }
     ]);
 
-    // Format the response to match the exact expected output [cite: 40, 41, 42, 43, 44]
+    // Format the response to match the exact expected output 
     const result = insights[0];
     const totalEntries = result.totalEntries[0]?.count || 0;
     const mostUsedAmbience = result.ambienceStats[0]?._id || "none";
@@ -105,7 +105,6 @@ router.post('/analyze', async (req, res) => {
     const result = await model.generateContent(prompt);
     const responseText = result.response.text();
 
-    // Clean up the response to strip any potential markdown formatting (e.g., ```json ... ```)
     const cleanJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
     const parsedData = JSON.parse(cleanJson);
 

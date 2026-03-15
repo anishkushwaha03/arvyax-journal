@@ -51,7 +51,7 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text })
       });
-      
+
       if (!analyzeRes.ok) throw new Error("Analysis failed");
       const analysisData = await analyzeRes.json();
 
@@ -59,7 +59,7 @@ function App() {
         userId: USER_ID,
         ambience,
         text,
-        analysis: analysisData 
+        analysis: analysisData
       };
 
       const saveRes = await fetch(API_BASE, {
@@ -87,7 +87,7 @@ function App() {
 
       {/* Top Section: Two Columns */}
       <div className="top-section">
-        
+
         {/* Left Column: New Entry */}
         <section className="column">
           <h2 className="section-title">New Entry</h2>
@@ -95,22 +95,23 @@ function App() {
             className="entry-textarea"
             value={text}
             onChange={(e) => setText(e.target.value)}
+            placeholder="Describe your session... How did the environment make you feel?"
           />
-          
+
           <div className="controls-row">
-            <select 
+            <select
               className="ambience-select"
-              value={ambience} 
-              onChange={(e) => setAmbience(e.target.value)} 
+              value={ambience}
+              onChange={(e) => setAmbience(e.target.value)}
             >
               <option value="forest">Forest ↓</option>
               <option value="ocean">Ocean ↓</option>
               <option value="mountain">Mountain ↓</option>
             </select>
 
-            <button 
+            <button
               className="submit-button"
-              onClick={handleSubmit} 
+              onClick={handleSubmit}
               disabled={loading}
             >
               {loading ? 'Creating...' : 'Create Entry'}
@@ -146,7 +147,7 @@ function App() {
                 <span className="entry-date">{new Date(entry.createdAt).toLocaleDateString()}</span>
               </div>
               <p className="entry-text">"{entry.text}"</p>
-              
+
               {entry.analysis && (
                 <div className="entry-analysis">
                   <em><strong>Emotion:</strong> {entry.analysis.emotion} | <strong>Keywords:</strong> {entry.analysis.keywords?.join(', ')}</em>

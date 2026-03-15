@@ -6,9 +6,10 @@ const Journal = require('../models/Journal');
 // POST /api/journal - Store entries in a database
 router.post('/', async (req, res) => {
   try {
-    const { userId, ambience, text } = req.body;
+    
+    const { userId, ambience, text, analysis } = req.body;
 
-    const newEntry = new Journal({ userId, ambience, text });
+    const newEntry = new Journal({ userId, ambience, text, analysis });
     await newEntry.save();
 
     res.status(201).json(newEntry);

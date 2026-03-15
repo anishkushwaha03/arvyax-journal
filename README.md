@@ -1,5 +1,7 @@
 # ArvyaX AI-Assisted Journal System
 
+**Live Demo:** [[text](https://arvyax-journal-pi.vercel.app/)]
+
 A full-stack web application built for the ArvyaX assignment. This system allows users to write journal entries after completing immersive nature sessions (forest, ocean, mountain) and uses Google's Gemini LLM to analyze the emotional state and extract keywords from the text. 
 
 ## Tech Stack
